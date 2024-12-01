@@ -1,21 +1,22 @@
+import kotlin.math.max
+import kotlin.math.min
+
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
-    }
+    val input = readInput("day1")
+    val delimiter = "   "
 
-    fun part2(input: List<String>): Int {
-        return input.size
-    }
+    // Extract each list
+    val firstList = input.map { it.split(delimiter).first() }.map { it.toInt() }
+    val secondList = input.map { it.split(delimiter).elementAt(1) }.map { it.toInt() }
 
-    // Test if implementation meets criteria from the description, like:
-    check(part1(listOf("test_input")) == 1)
+    // Sort lists
+    val sortedFirst = firstList.sorted()
+    val sortedSecond = secondList.sorted()
 
-    // Or read a large test input from the `src/Day01_test.txt` file:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
+    // Calculate distance between numbers
+    val result = sortedFirst.zip(sortedSecond) { first, second ->
+        max(first, second) - min(first, second)
+    }.sum()
 
-    // Read the input from the `src/Day01.txt` file.
-    val input = readInput("Day01")
-    part1(input).println()
-    part2(input).println()
+    result.println()
 }

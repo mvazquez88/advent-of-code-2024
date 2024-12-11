@@ -1,21 +1,36 @@
-fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
+import kotlin.math.max
+import kotlin.math.min
+
+// AoC 2024 - Day 01: Historian Hysteria
+// https://adventofcode.com/2024/day/1
+
+class Day01 : Day(dayId = 1, expectedResult = listOf(11, 2264607, 31, 19457120)) {
+
+    private fun List<String>.processInput(): Pair<List<Int>, List<Int>> {
+        val delimiter = "   "
+
+        val firstList = map { it.split(delimiter)[0] }.map { it.toInt() }
+        val secondList = map { it.split(delimiter)[1] }.map { it.toInt() }
+
+        return firstList to secondList
     }
 
-    fun part2(input: List<String>): Int {
-        return input.size
+    override fun part1(input: List<String>): Number {
+        val (listA, listB) = input.processInput()
+
+        val sortedA = listA.sorted()
+        val sortedB = listB.sorted()
+
+        return sortedA
+            .zip(sortedB) { first, second -> max(first, second) - min(first, second) }
+            .sum()
     }
 
-    // Test if implementation meets criteria from the description, like:
-    check(part1(listOf("test_input")) == 1)
+    override fun part2(input: List<String>): Number {
+        val (listA, listB) = input.processInput()
 
-    // Or read a large test input from the `src/Day01_test.txt` file:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
-
-    // Read the input from the `src/Day01.txt` file.
-    val input = readInput("Day01")
-    part1(input).println()
-    part2(input).println()
+        return listA.sumOf { first -> first * listB.count { second -> first == second } }
+    }
 }
+
+fun main() = Day01().run()

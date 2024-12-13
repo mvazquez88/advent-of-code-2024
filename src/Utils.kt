@@ -22,6 +22,9 @@ fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteA
  */
 fun Any?.println() = println(this)
 
+fun String.between(before: String, after:String): String
+    = substringAfter(before).substringBefore(after)
+
 fun Iterable<Int>.isAllDecreasing(): Boolean = asSequence().zipWithNext { a, b -> a > b }.all { it }
 
 fun Iterable<Int>.isAllIncreasing(): Boolean = asSequence().zipWithNext { a, b -> a < b }.all { it }

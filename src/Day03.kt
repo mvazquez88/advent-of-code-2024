@@ -4,7 +4,7 @@
 class Day03 : Day(dayId = 3, expectedResult = listOf(161, 161085926, 48, 82045421)) {
 
     private val regexPart1 = "mul\\((\\d{1,3}),(\\d{1,3})\\)".toRegex()
-    private val regexPart2 = "mul\\((\\d{1,3}),(\\d{1,3})\\)|(do\\(\\))|(don't\\(\\))".toRegex()
+    private val regexPart2 = "${regexPart1.pattern}|(do\\(\\))|(don't\\(\\))".toRegex()
 
     private fun List<String>.processInput(): String = joinToString()
 

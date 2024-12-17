@@ -71,6 +71,13 @@ data class Point(val x: Int, val y: Int) {
 
     fun downLeftRange(offset: Int) = (0..offset).map { down(it).left(it) }
 
+    fun move(direction: Facing, by: Int) = when (direction) {
+        Facing.Right -> right(by)
+        Facing.Down -> down(by)
+        Facing.Left -> left(by)
+        Facing.Up -> up(by)
+    }
+
     fun isValid(matrix: Array<CharArray>) = y in matrix.indices && x in matrix[y].indices
 }
 

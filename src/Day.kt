@@ -19,8 +19,8 @@ abstract class Day(
         }]
 
     private fun run(part: Int, isTest: Boolean): String {
-        val expectedResult =expectedResult(part, isTest)
-        if (expectedResult == -1) return ""
+        val expectedResult = expectedResult(part, isTest)
+        if (expectedResult == -1 || expectedResult == -1L) return ""
 
         val filename = if (isTest) "${filename}_test" else filename
         var result: Number

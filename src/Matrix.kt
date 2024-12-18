@@ -10,6 +10,8 @@ class Matrix(val height: Int, val width: Int, default: Any = '.') {
 
     fun get(point: Point): Any = matrix[point.y][point.x]
 
+    fun isValid(point: Point) = point.x in 0..<width && point.y in 0..<height
+
     fun increment(point: Point) = set(point, at<Int>(point) + 1)
     fun decrement(point: Point) = set(point, at<Int>(point) - 1)
 

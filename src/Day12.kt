@@ -2,9 +2,9 @@
 // https://adventofcode.com/2024/day/12
 
 enum class Direction(
-    val offset: (Point) -> Point,
-    val next: (Point) -> Point,
-    val previous: (Point) -> Point,
+    val offset: (P2) -> P2,
+    val next: (P2) -> P2,
+    val previous: (P2) -> P2,
 ) {
     North({ it.up(1) }, { it.right(1) }, { it.left(1) }),
     South({ it.down(1) }, { it.left(1) }, { it.right(1) }),
@@ -12,12 +12,12 @@ enum class Direction(
     West({ it.left(1) }, { it.down(1) }, { it.up(1) }),
 }
 
-data class Wall(val facing: Direction, val location: Point) {
+data class Wall(val facing: Direction, val location: P2) {
     fun next(): Wall = copy(location = facing.next(location))
     fun previous(): Wall = copy(location = facing.previous(location))
 }
 
-data class Plot(val plantType: Char, val location: Point) {
+data class Plot(val plantType: Char, val location: P2) {
     private fun neighbor(direction: Direction, map: Array<CharArray>): Plot? =
         direction.offset(location).let {
             return if (it.isValid(map)) Plot(map.at(it), it) else null

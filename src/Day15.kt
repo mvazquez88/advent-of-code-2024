@@ -9,20 +9,20 @@ private const val BOX: Char = 'O'
 private const val BOX_LEFT: Char = '['
 private const val BOX_RIGHT: Char = ']'
 
-private sealed class Item(val location: Point) {
+private sealed class Item(val location: P2) {
 
     abstract fun canMove(direction: Facing, matrix: Matrix): Boolean
     open fun move(direction: Facing, matrix: Matrix) {}
 
-    class Empty(location: Point) : Item(location) {
+    class Empty(location: P2) : Item(location) {
         override fun canMove(direction: Facing, matrix: Matrix) = true
     }
 
-    class Wall(location: Point) : Item(location) {
+    class Wall(location: P2) : Item(location) {
         override fun canMove(direction: Facing, matrix: Matrix) = false
     }
 
-    class Simple(location: Point) : Item(location) {
+    class Simple(location: P2) : Item(location) {
         override fun canMove(direction: Facing, matrix: Matrix): Boolean {
             return from(direction.move(location), matrix).canMove(direction, matrix)
         }
@@ -33,7 +33,7 @@ private sealed class Item(val location: Point) {
         }
     }
 
-    class Double(private val left: Point, private val right: Point) : Item(left) {
+    class Double(private val left: P2, private val right: P2) : Item(left) {
         override fun canMove(direction: Facing, matrix: Matrix): Boolean {
             return if (direction.isHorizontal) {
                 val coordinate = if (direction == Facing.Right) right else left
@@ -67,7 +67,7 @@ private sealed class Item(val location: Point) {
     }
 
     companion object {
-        private fun from(char: Char, location: Point): Item = when (char) {
+        private fun from(char: Char, location: P2): Item = when (char) {
             ROBOT -> Simple(location)
             BOX -> Simple(location)
             BOX_LEFT -> Double(location, location.right(1))
@@ -77,13 +77,13 @@ private sealed class Item(val location: Point) {
             else -> throw IllegalStateException()
         }
 
-        fun from(location: Point, matrix: Matrix): Item = from(matrix.at<Char>(location), location)
+        fun from(location: P2, matrix: Matrix): Item = from(matrix.at<Char>(location), location)
     }
 }
 
 private class Warehouse(height: Int, width: Int) {
     private val matrix = Matrix(height, width)
-    fun update(point: Point, value: Char) = matrix.set(point, value)
+    fun update(point: P2, value: Char) = matrix.set(point, value)
 
     fun tryMove(direction: Facing) {
         val robot = Item.from(matrix.find(ROBOT), matrix)
@@ -115,7 +115,7 @@ class Day15 : Day(dayId = 15, expectedResult = listOf(10092, 1568399, 9021, 1575
 
         for (y in map.indices)
             for (x in map[y].indices)
-                warehouse.update(Point(x, y), map[y][x])
+                warehouse.update(P2(x, y), map[y][x])
 
         val moves = subList(splitIndex, size)
             .joinToString()

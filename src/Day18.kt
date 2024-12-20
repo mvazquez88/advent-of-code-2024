@@ -10,14 +10,14 @@ class Day18 : Day(dayId = 18, expectedResult = listOf(22, 280, 61, 2856)) {
         private const val EMPTY = '.'
     }
 
-    class Map(val size: Int, fallingBytes: List<Point>) {
+    class Map(val size: Int, fallingBytes: List<P2>) {
 
         private val matrix = Matrix(size).apply {
             for (byte in fallingBytes)
                 set(byte, BLOCKER)
         }
 
-        data class MazeRunner(val position: Point, val facing: Facing = Facing.Right) {
+        data class MazeRunner(val position: P2, val facing: Facing = Facing.Right) {
             fun turnLeft() = copy(facing = facing.previous())
             fun turnRight() = copy(facing = facing.next())
             fun move() = copy(position = facing.move(position))
@@ -26,8 +26,8 @@ class Day18 : Day(dayId = 18, expectedResult = listOf(22, 280, 61, 2856)) {
         data class Node(val location: MazeRunner, val path: List<MazeRunner>, val score: Int)
 
         fun solve(): Int {
-            val startLocation = MazeRunner(Point(0, 0))
-            val endLocation = Point(size - 1, size - 1)
+            val startLocation = MazeRunner(P2(0, 0))
+            val endLocation = P2(size - 1, size - 1)
             val startingNode = Node(startLocation, path = listOf(startLocation), score = 0)
 
             val queue = PriorityQueue<Node>(compareBy { it.score })
@@ -71,8 +71,8 @@ class Day18 : Day(dayId = 18, expectedResult = listOf(22, 280, 61, 2856)) {
         override fun toString() = matrix.toString()
     }
 
-    private fun List<String>.processInput(): List<Point> = map { it.split(',') }
-        .map { Point(it[0].toInt(), it[1].toInt()) }
+    private fun List<String>.processInput(): List<P2> = map { it.split(',') }
+        .map { P2(it[0].toInt(), it[1].toInt()) }
 
     override fun part1(input: List<String>): Number {
         val fallingBytes = input.processInput()

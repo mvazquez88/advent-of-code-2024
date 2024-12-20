@@ -6,13 +6,13 @@ class Day10 : Day(dayId = 10, expectedResult = listOf(36, 822, 81, 1801)) {
     private fun List<String>.processInput(): List<List<Int>> =
         map { it.toCharArray().map { height -> height.digitToInt() } }
 
-    private fun findStartingPoints(map: List<List<Int>>): List<Point> = buildList {
+    private fun findStartingPoints(map: List<List<Int>>): List<P2> = buildList {
         for (y in map.indices)
             for (x in map[y].indices)
-                if (map[y][x] == 0) add(Point(x, y))
+                if (map[y][x] == 0) add(P2(x, y))
     }
 
-    private fun calculateTrails(map: List<List<Int>>, start: Point): List<Point> {
+    private fun calculateTrails(map: List<List<Int>>, start: P2): List<P2> {
         val currentHeight = map[start.y][start.x]
         if (currentHeight == 9) return listOf(start)
 

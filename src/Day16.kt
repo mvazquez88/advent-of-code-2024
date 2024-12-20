@@ -11,7 +11,7 @@ class Day16 : Day(dayId = 16, expectedResult = listOf(11048, 134588, 64, 631)) {
         private const val EMPTY: Char = '.'
     }
 
-    data class Reindeer(val position: Point, val facing: Facing = Facing.Right) {
+    data class Reindeer(val position: P2, val facing: Facing = Facing.Right) {
         fun turnLeft() = copy(facing = facing.previous())
         fun turnRight() = copy(facing = facing.next())
         fun move() = copy(position = facing.move(position))
@@ -22,9 +22,9 @@ class Day16 : Day(dayId = 16, expectedResult = listOf(11048, 134588, 64, 631)) {
     class Maze(val size: Int) {
         private val matrix = Matrix(size)
         private fun findReindeer() = Reindeer(matrix.find(REINDEER))
-        private fun at(point: Point): Char = matrix.at(point) as Char
+        private fun at(point: P2): Char = matrix.at(point) as Char
 
-        fun update(point: Point, value: Char) = matrix.set(point, value)
+        fun update(point: P2, value: Char) = matrix.set(point, value)
 
         fun solve(): Pair<Int, Int> {
             val startReindeer = findReindeer()
@@ -77,7 +77,7 @@ class Day16 : Day(dayId = 16, expectedResult = listOf(11048, 134588, 64, 631)) {
         val maze = Maze(size)
         for (y in indices)
             for (x in this[y].indices) {
-                maze.update(Point(x, y), this[y][x])
+                maze.update(P2(x, y), this[y][x])
             }
         return maze
     }

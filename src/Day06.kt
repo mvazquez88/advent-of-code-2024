@@ -5,7 +5,7 @@ private const val BLOCKER = '#'
 private const val VISITED = 'X'
 private const val NOT_VISITED = '.'
 
-enum class GuardType(val id: Char, val move: (Point) -> Point) {
+enum class GuardType(val id: Char, val move: (P2) -> P2) {
     LookingUp('^', { it.up(1) }),
     LookingRight('>', { it.right(1) }),
     LookingDown('v', { it.down(1) }),
@@ -20,7 +20,7 @@ enum class GuardType(val id: Char, val move: (Point) -> Point) {
 
 data class Guard(
     val type: GuardType,
-    val position: Point,
+    val position: P2,
 ) {
     fun rotateRight() = copy(type = type.next())
     fun move() = copy(position = type.move(position))
@@ -42,14 +42,14 @@ class Day06 : Day(dayId = 6, expectedResult = listOf(41, 5551, 6, 1939)) {
         }
         .let { Guard(it.first, it.second) }
 
-    private fun Array<CharArray>.cloneWithObstacle(obstacle: Point) = map { it.clone() }
+    private fun Array<CharArray>.cloneWithObstacle(obstacle: P2) = map { it.clone() }
         .toTypedArray()
         .apply { this[obstacle.y][obstacle.x] = BLOCKER }
 
     private fun patrolWithObstacles(
         input: Array<CharArray>,
         guard: Guard,
-        obstacles: List<Point>
+        obstacles: List<P2>
     ) = obstacles
         .map { input.cloneWithObstacle(it) }
         .parallelStream()

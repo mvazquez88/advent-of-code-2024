@@ -1,14 +1,14 @@
 // AoC 2024 - Day 14: Restroom Redoubt
 // https://adventofcode.com/2024/day/14
 
-data class Robot(val initial: Point, val velocity: Point) {
-    fun calculatePosition(seconds: Int, maxY: Int, maxX: Int): Point {
+data class Robot(val initial: P2, val velocity: P2) {
+    fun calculatePosition(seconds: Int, maxY: Int, maxX: Int): P2 {
         var current = initial
 
         for (s in 0..<seconds) {
             val newX = Math.floorMod(current.x + velocity.x, maxX)
             val newY = Math.floorMod(current.y + velocity.y, maxY)
-            current = Point(newX, newY)
+            current = P2(newX, newY)
         }
 
         return current
@@ -48,8 +48,8 @@ class Day14 : Day(dayId = 14, expectedResult = listOf(12, 218295000, -1, 6870)) 
     private fun List<String>.processInput(): List<Robot> = flatMap { it.split(" ") }
         .chunked(2)
         .map {
-            val l = Point(it[0].between("p=", ",").toInt(), it[0].substringAfter(",").toInt())
-            val v = Point(it[1].between("v=", ",").toInt(), it[1].substringAfter(",").toInt())
+            val l = P2(it[0].between("p=", ",").toInt(), it[0].substringAfter(",").toInt())
+            val v = P2(it[1].between("v=", ",").toInt(), it[1].substringAfter(",").toInt())
             Robot(l, v)
         }
 

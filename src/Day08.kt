@@ -6,22 +6,22 @@ class Day08 : Day(dayId = 8, expectedResult = listOf(14, 276, 34, 991)) {
     private fun Array<CharArray>.extractDistinctAntennas(): List<Char> =
         flatMap { it.toList() }.distinct().minus('.')
 
-    private fun getAntennaPositions(input: Array<CharArray>, antenna: Char): List<Point> =
+    private fun getAntennaPositions(input: Array<CharArray>, antenna: Char): List<P2> =
         input.indices2d.filter { input.at(it) == antenna }
 
-    private fun getAntennaPairs(antennaPositions: List<Point>): List<List<Point>> =
+    private fun getAntennaPairs(antennaPositions: List<P2>): List<List<P2>> =
         antennaPositions.combinations(2)
 
-    private fun getDistanceBetweenAntennas(antennaA: Point, antennaB: Point): Point =
+    private fun getDistanceBetweenAntennas(antennaA: P2, antennaB: P2): P2 =
         antennaB.x(-antennaA.x).y(-antennaA.y)
 
     private fun getAntinodes(
-        antennaA: Point,
-        antennaB: Point,
+        antennaA: P2,
+        antennaB: P2,
         map: Array<CharArray>,
         maxStep: Int = Int.MAX_VALUE,
         includeSource: Boolean = false
-    ): List<Point> {
+    ): List<P2> {
         val (offsetX, offsetY) = getDistanceBetweenAntennas(antennaA, antennaB)
         return buildList {
             var step = if (includeSource) 0 else 1

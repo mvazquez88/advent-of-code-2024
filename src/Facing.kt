@@ -1,4 +1,4 @@
-enum class Facing(val id: Char, val move: (Point) -> Point) {
+enum class Facing(val id: Char, val move: (P2) -> P2) {
     Right('>', { it.right(1) }),
     Down('v', { it.down(1) }),
     Left('<', { it.left(1) }),

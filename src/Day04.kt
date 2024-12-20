@@ -3,7 +3,7 @@
 
 class Day04 : Day(dayId = 4, expectedResult = listOf(18, 2530, 9, 1921)) {
 
-    private fun isCrossMas(input: Array<CharArray>, center: Point): Boolean {
+    private fun isCrossMas(input: Array<CharArray>, center: P2): Boolean {
         if (center.y !in 1..<input.size - 1 || center.x !in 1..<input[center.x].size - 1)
             return false
 
@@ -14,13 +14,13 @@ class Day04 : Day(dayId = 4, expectedResult = listOf(18, 2530, 9, 1921)) {
         return firstDiagonal.matches(matcher) && secondDiagonal.matches(matcher)
     }
 
-    private fun isXmas(input: Array<CharArray>, chain: List<Point>): Boolean {
+    private fun isXmas(input: Array<CharArray>, chain: List<P2>): Boolean {
         if (chain.any { !it.isValid(input) }) return false
 
         return chain.map { input.at(it) }.toCharArray().concatToString() == "XMAS"
     }
 
-    private fun countXmas(input: Array<CharArray>, start: Point): Int {
+    private fun countXmas(input: Array<CharArray>, start: P2): Int {
         val length = 3
         val combinations = listOf(
             start.upRange(length),

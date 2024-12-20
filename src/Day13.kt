@@ -13,16 +13,16 @@ data class Button(val x: Int, val y: Int, val cost: Int) {
 
 class Day13 : Day(dayId = 13, expectedResult = listOf(480, 25629, 875318608908, 107487112929999)) {
 
-    private fun List<String>.processInput(): List<Pair<Pair<Button, Button>, Point>> =
+    private fun List<String>.processInput(): List<Pair<Pair<Button, Button>, P2>> =
         chunked(4).map {
-            val prize = Point(it[2].between("X=", ",").toInt(), it[2].substringAfter("Y=").toInt())
+            val prize = P2(it[2].between("X=", ",").toInt(), it[2].substringAfter("Y=").toInt())
             val buttonA = Button.from(it[0], cost = 3)
             val buttonB = Button.from(it[1], cost = 1)
             (buttonA to buttonB) to prize
         }.toList()
 
     private fun calculateMoves(
-        target: Point,
+        target: P2,
         buttons: Pair<Button, Button>,
         prizeOffset: Long = 0L
     ): Long {

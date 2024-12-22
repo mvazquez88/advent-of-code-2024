@@ -30,7 +30,7 @@ abstract class Day(
             result = if (part == 1) part1(input) else part2(input)
         }
 
-        val emoji = if (expectedResult == result) "✅" else "❌ (expected $expectedResult)"
+        val emoji = if (expectedResult.toLong() == result.toLong()) "✅" else "❌ (expected $expectedResult)"
         val dataSource = if (isTest) "test" else "real"
 
         return "\n  Result with $dataSource data: $result (${elapsedTime.inWholeMilliseconds}ms) $emoji"

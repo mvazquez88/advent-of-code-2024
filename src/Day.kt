@@ -2,11 +2,11 @@ import kotlin.time.measureTime
 
 abstract class Day(
     private val dayId: Int,
-    private val expectedResult: List<Number>
+    private val expectedResult: List<Any>
 ) {
 
-    abstract fun part1(input: List<String>): Number
-    abstract fun part2(input: List<String>): Number
+    abstract fun part1(input: List<String>): Any
+    abstract fun part2(input: List<String>): Any
 
     private val filename = "Day%02d".format(dayId)
 
@@ -23,14 +23,14 @@ abstract class Day(
         if (expectedResult == -1 || expectedResult == -1L) return ""
 
         val filename = if (isTest) "${filename}_test" else filename
-        var result: Number
+        var result: Any
 
         val input = readInput(filename)
         val elapsedTime = measureTime {
             result = if (part == 1) part1(input) else part2(input)
         }
 
-        val emoji = if (expectedResult.toLong() == result.toLong()) "✅" else "❌ (expected $expectedResult)"
+        val emoji = if (expectedResult == result) "✅" else "❌ (expected $expectedResult)"
         val dataSource = if (isTest) "test" else "real"
 
         return "\n  Result with $dataSource data: $result (${elapsedTime.inWholeMilliseconds}ms) $emoji"
